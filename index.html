@@ -19,7 +19,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
             color: var(--text-color);
             background-color: var(--bg-color);
@@ -37,8 +37,6 @@
             border-radius: 50%;
             margin-bottom: 1.5rem;
             object-fit: cover;
-            loading: lazy;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
@@ -65,13 +63,11 @@
             text-decoration: none;
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
-            transition: background-color 0.3s ease-in-out, transform 0.2s;
-            font-weight: bold;
+            transition: background-color 0.3s;
         }
 
         .social-links a:hover {
             background-color: #dbeafe;
-            transform: scale(1.05);
         }
 
         main {
@@ -90,20 +86,6 @@
             color: var(--primary-color);
         }
 
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .skill-tag {
-            background-color: var(--secondary-bg);
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-size: 0.875rem;
-        }
-
         .projects {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -115,13 +97,15 @@
             background-color: var(--secondary-bg);
             border-radius: 1rem;
             padding: 1.5rem;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
         .project-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+            background-color: #e9e2ff; /* Efeito hover */
         }
 
         .project-card h3 {
@@ -153,17 +137,17 @@
 </head>
 <body>
     <header>
-        <img src="images/profile.JPG" alt="Foto de perfil de Viviane Franco" class="profile-img">
+        <img src="images/profile.JPG" alt="Seu perfil" class="profile-img">
         <h1>viviane franco</h1>
         <p class="subtitle">especialista em inovação | entusiasta de tecnologia</p>
         <div class="social-links">
-            <a href="https://github.com/vivianefranco" target="_blank" aria-label="GitHub de Viviane">GitHub</a>
-            <a href="https://www.linkedin.com/in/viviane-francos/" target="_blank" aria-label="LinkedIn de Viviane">LinkedIn</a>
-            <a href="mailto:vivianefrancodasilva@gmail.com" aria-label="Enviar e-mail para Viviane">Email</a>
+            <a href="https://github.com/vivianefranco">GitHub</a>
+            <a href="https://www.linkedin.com/in/viviane-francos/">LinkedIn</a>
+            <a href="mailto:vivianefrancodasilva@gmail.com">Email</a>
         </div>
     </header>
 
-    <main>
+     <main>
         <section id="sobre">
             <h2>sobre mim</h2>
             <p>Oi, eu sou a Viviane! 🚀 Especialista em inovação, transformo desafios complexos em soluções inteligentes, especialmente com IA. Minha paixão está na interseção entre tecnologia e educação – tenho experiência em criação de materiais didáticos e aplicações de IA na aprendizagem. Sempre de olho no futuro, estou em constante evolução para levar inovação para onde ela realmente faz a diferença.</p>
@@ -182,21 +166,22 @@
             </div>
         </section>
 
+    <main>
         <section id="projetos">
             <h2>projetos</h2>
             <div class="projects">
-                <div class="project-card">
+                <a href="projeto1.html" target="_blank" class="project-card">
                     <h3>revisor automático de textos com IA</h3>
-                    <p>Desenvolvi um revisor automático de textos utilizando GPT-4o-mini para aprimorar a clareza, coesão e correção gramatical de documentos no formato .docx...</p>
-                </div>
-                <div class="project-card">
+                    <p>Desenvolvi um revisor automático de textos utilizando GPT-4o-mini para aprimorar a clareza, coesão e correção gramatical de documentos no formato .docx.</p>
+                </a>
+                <a href="projeto2.html" target="_blank" class="project-card">
                     <h3>gerador automatizado de questões por IA</h3>
-                    <p>Desenvolvi um gerador de questões de múltipla escolha utilizando inteligência artificial para automatizar a criação de avaliações educacionais...</p>
-                </div>
-                <div class="project-card">
+                    <p>Criei um sistema de geração de questões de múltipla escolha baseado em IA para auxiliar educadores na elaboração de avaliações pedagógicas.</p>
+                </a>
+                <a href="projeto3.html" target="_blank" class="project-card">
                     <h3>capacitação em inteligência artificial para educadores</h3>
-                    <p>Ensino professores a utilizar a inteligência artificial como aliada na educação...</p>
-                </div>
+                    <p>Ensino professores a integrar IA no ensino, desenvolvendo planos de aula, atividades e correção de exercícios com ferramentas avançadas.</p>
+                </a>
             </div>
         </section>
     </main>
@@ -206,4 +191,5 @@
     </footer>
 </body>
 </html>
+
 
