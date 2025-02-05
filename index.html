@@ -86,6 +86,19 @@
             color: var(--primary-color);
         }
 
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .skill {
+            background-color: var(--secondary-bg);
+            padding: 0.75rem 1.5rem;
+            border-radius: 1rem;
+            font-weight: bold;
+        }
+
         .projects {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -118,6 +131,7 @@
             padding: 2rem;
             background-color: var(--secondary-bg);
             margin-top: 4rem;
+            width: 100%;
         }
 
         @media (max-width: 640px) {
@@ -138,8 +152,8 @@
 <body>
     <header>
         <img src="images/profile.JPG" alt="Seu perfil" class="profile-img">
-        <h1>viviane franco</h1>
-        <p class="subtitle">especialista em inovação | entusiasta de tecnologia</p>
+        <h1>Viviane Franco</h1>
+        <p class="subtitle">Especialista em Inovação | Entusiasta de Tecnologia</p>
         <div class="social-links">
             <a href="https://github.com/vivianefranco">GitHub</a>
             <a href="https://www.linkedin.com/in/viviane-francos/">LinkedIn</a>
@@ -147,39 +161,33 @@
         </div>
     </header>
 
-     <main>
-        <section id="sobre">
-            <h2>sobre mim</h2>
-            <p>Oi, eu sou a Viviane! 🚀 Especialista em inovação, transformo desafios complexos em soluções inteligentes, especialmente com IA. Minha paixão está na interseção entre tecnologia e educação – tenho experiência em criação de materiais didáticos e aplicações de IA na aprendizagem. Sempre de olho no futuro, estou em constante evolução para levar inovação para onde ela realmente faz a diferença.</p>
-        </section>
-
+    <main>
         <section id="habilidades">
-            <h2>habilidades</h2>
-            <div class="skills">
-                <span class="skill-tag">inteligência artificial</span>
-                <span class="skill-tag">LMS</span>
-                <span class="skill-tag">material didático</span>
-                <span class="skill-tag">python</span>
-                <span class="skill-tag">análise de dados</span>
-                <span class="skill-tag">ensino</span>
-                <span class="skill-tag">capacitação e treinamento</span>
+            <h2>Habilidades</h2>
+            <div class="skills-list">
+                <span class="skill">Inteligência Artificial</span>
+                <span class="skill">Desenvolvimento Web</span>
+                <span class="skill">Machine Learning</span>
+                <span class="skill">Processamento de Linguagem Natural</span>
+                <span class="skill">Gestão de Projetos</span>
+                <span class="skill">Análise de Dados</span>
+                <span class="skill">Revisão de Textos</span>
             </div>
         </section>
 
-    <main>
         <section id="projetos">
-            <h2>projetos</h2>
+            <h2>Projetos</h2>
             <div class="projects">
                 <a href="projeto1.html" target="_blank" class="project-card">
-                    <h3>revisor automático de textos com IA</h3>
+                    <h3>Revisor automático de textos com IA</h3>
                     <p>Desenvolvi um revisor automático de textos utilizando GPT-4o-mini para aprimorar a clareza, coesão e correção gramatical de documentos no formato .docx.</p>
                 </a>
                 <a href="projeto2.html" target="_blank" class="project-card">
-                    <h3>gerador automatizado de questões por IA</h3>
+                    <h3>Gerador automatizado de questões por IA</h3>
                     <p>Criei um sistema de geração de questões de múltipla escolha baseado em IA para auxiliar educadores na elaboração de avaliações pedagógicas.</p>
                 </a>
                 <a href="projeto3.html" target="_blank" class="project-card">
-                    <h3>capacitação em inteligência artificial para educadores</h3>
+                    <h3>Capacitação em inteligência artificial para educadores</h3>
                     <p>Ensino professores a integrar IA no ensino, desenvolvendo planos de aula, atividades e correção de exercícios com ferramentas avançadas.</p>
                 </a>
             </div>
@@ -191,5 +199,6 @@
     </footer>
 </body>
 </html>
+
 
 
