@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Viviane Franco - Página pessoal</title>
     <style>
-:root {
-    --primary-color: #7c3aed;  /* Roxo vibrante */
-    --text-color: #1f2937;
-    --bg-color: #ffffff;
-    --secondary-bg: #f5f3ff;  /* Fundo roxo bem claro */
-}
+        :root {
+            --primary-color: #7c3aed;  /* Roxo vibrante */
+            --text-color: #1f2937;
+            --bg-color: #ffffff;
+            --secondary-bg: #f5f3ff;  /* Fundo roxo bem claro */
+        }
 
         * {
             margin: 0;
@@ -19,7 +19,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             line-height: 1.6;
             color: var(--text-color);
             background-color: var(--bg-color);
@@ -37,6 +37,8 @@
             border-radius: 50%;
             margin-bottom: 1.5rem;
             object-fit: cover;
+            loading: lazy;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
@@ -63,11 +65,13 @@
             text-decoration: none;
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s ease-in-out, transform 0.2s;
+            font-weight: bold;
         }
 
         .social-links a:hover {
             background-color: #dbeafe;
+            transform: scale(1.05);
         }
 
         main {
@@ -111,11 +115,13 @@
             background-color: var(--secondary-bg);
             border-radius: 1rem;
             padding: 1.5rem;
-            transition: transform 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
         }
 
         .project-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
         }
 
         .project-card h3 {
@@ -147,67 +153,49 @@
 </head>
 <body>
     <header>
-        <img src="images/profile.JPG" alt="Seu perfil" class="profile-img">
-        <h1>Viviane Franco</h1>
-        <p class="subtitle">Especialista em Inovação | Entusiasta de Tecnologia</p>
+        <img src="images/profile.JPG" alt="Foto de perfil de Viviane Franco" class="profile-img">
+        <h1>viviane franco</h1>
+        <p class="subtitle">especialista em inovação | entusiasta de tecnologia</p>
         <div class="social-links">
-            <a href="https://github.com/vivianefranco">GitHub</a>
-            <a href="https://www.linkedin.com/in/viviane-francos/">LinkedIn</a>
-            <a href="vivianefrancodasilva@gmail.com">Email</a>
+            <a href="https://github.com/vivianefranco" target="_blank" aria-label="GitHub de Viviane">GitHub</a>
+            <a href="https://www.linkedin.com/in/viviane-francos/" target="_blank" aria-label="LinkedIn de Viviane">LinkedIn</a>
+            <a href="mailto:vivianefrancodasilva@gmail.com" aria-label="Enviar e-mail para Viviane">Email</a>
         </div>
     </header>
 
     <main>
         <section id="sobre">
-            <h2>Sobre mim</h2>
+            <h2>sobre mim</h2>
             <p>Oi, eu sou a Viviane! 🚀 Especialista em inovação, transformo desafios complexos em soluções inteligentes, especialmente com IA. Minha paixão está na interseção entre tecnologia e educação – tenho experiência em criação de materiais didáticos e aplicações de IA na aprendizagem. Sempre de olho no futuro, estou em constante evolução para levar inovação para onde ela realmente faz a diferença.</p>
         </section>
 
         <section id="habilidades">
             <h2>Habilidades</h2>
             <div class="skills">
-                <span class="skill-tag">Inteligência Artificial</span>
+                <span class="skill-tag">inteligência artificial</span>
                 <span class="skill-tag">LMS</span>
-                <span class="skill-tag">Material didático</span>
-                <span class="skill-tag">Python</span>
-                <span class="skill-tag">Análise de dados</span>
-                <span class="skill-tag">Ensino</span>
-                <span class="skill-tag">Capcitação e treinamento</span>
+                <span class="skill-tag">material didático</span>
+                <span class="skill-tag">python</span>
+                <span class="skill-tag">análise de dados</span>
+                <span class="skill-tag">ensino</span>
+                <span class="skill-tag">capacitação e treinamento</span>
             </div>
         </section>
 
         <section id="projetos">
-            <h2>Projetos</h2>
+            <h2>projetos</h2>
             <div class="projects">
                 <div class="project-card">
-                    <h3>Revisor automático de textos com IA</h3>
-                    <p>Desenvolvi um revisor automático de textos utilizando GPT-4o-mini para aprimorar a clareza, coesão e correção gramatical de documentos no formato .docx. O sistema processa os textos seguindo regras linguísticas personalizadas, como evitar o uso de certas palavras ou ajustar a estrutura conforme especificações pré-definidas.</p>
-
-<p>O projeto conta com:</p>
-                        
-<p>✅ Segmentação de textos longos para atender limites de tokens</p>
-<p>✅ Manutenção da formatação original do documento</p>
-<p>✅ Automação do processo de revisão em diretórios inteiros</p>
-
-Essa solução é ideal para profissionais que precisam de um revisor automático eficiente, alinhado a normas linguísticas específicas.</p>
+                    <h3>revisor automático de textos com IA</h3>
+                    <p>Desenvolvi um revisor automático de textos utilizando GPT-4o-mini para aprimorar a clareza, coesão e correção gramatical de documentos no formato .docx...</p>
                 </div>
                 <div class="project-card">
-                    <h3>Gerador automatizado de questões por IA</h3>
-                    <p>Desenvolvi um gerador de questões de múltipla escolha utilizando inteligência artificial para automatizar a criação de avaliações educacionais. O sistema recebe um texto de referência e gera questões coerentes e bem estruturadas, alinhadas a boas práticas pedagógicas.</p>
-
-<p> Principais recursos:
-
-<p>✅ Geração de questões baseada em textos fornecidos pelo usuário.</p>
-<p>✅ Opção de personalizar o número de questões.</p>
-<p>✅ Interface desenvolvida com Streamlit, garantindo usabilidade intuitiva.</p>
-<p>✅ Uso da API da OpenAI para processamento de linguagem natural.</p>
-<p>✅ Possibilidade de expansão para curadoria de conteúdo, busca em repositórios acadêmicos e personalização pedagógica.</p>
-
-                        <p>💡 Objetivo: otimizar a criação de materiais didáticos e avaliações, reduzindo o tempo de elaboração para professores e instituições de ensino.</p>
+                    <h3>gerador automatizado de questões por IA</h3>
+                    <p>Desenvolvi um gerador de questões de múltipla escolha utilizando inteligência artificial para automatizar a criação de avaliações educacionais...</p>
                 </div>
                 <div class="project-card">
-                    <h3>Capacitação em inteligência artificial para educadores</h3>
-                    <p>Ensino professores a utilizar a inteligência artificial como aliada na educação, desenvolvendo planos de aula, criando atividades e corrigindo exercícios com ferramentas como ChatGPT, Perplexity e NotebookLM. Minhas aulas são práticas e focadas na aplicação real, capacitando educadores para integrar a IA ao ensino de forma ética, eficiente e inovadora.</p>
+                    <h3>capacitação em inteligência artificial para educadores</h3>
+                    <p>Ensino professores a utilizar a inteligência artificial como aliada na educação...</p>
                 </div>
             </div>
         </section>
@@ -218,3 +206,4 @@ Essa solução é ideal para profissionais que precisam de um revisor automátic
     </footer>
 </body>
 </html>
+
