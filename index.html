@@ -3,15 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viviane Franco - Página Pessoal</title>
+    <title>Viviane Franco - Tecnologias Educacionais & IA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #6a5acd;
-            --secondary-color: #8a4fff;
-            --text-primary: #1f2937;
-            --text-secondary: #4b5563;
-            --bg-light: #f8f5ff;
-            --bg-card: #f4f0ff;
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --accent-color: #a78bfa;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --bg-light: #f8fafc;
+            --bg-card: #ffffff;
+            --gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --glass-effect: rgba(255, 255, 255, 0.15);
         }
 
         * {
@@ -25,17 +29,35 @@
             line-height: 1.6;
             color: var(--text-primary);
             background-color: var(--bg-light);
+            scroll-behavior: smooth;
         }
 
         header {
-    background-image: url('images/header-bg.svg');
-    background-size: cover;
-    background-position: center;
-    color: white;
-    text-align: center;
-    padding: 4rem 1rem;
-    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
-}
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+            padding: 5rem 1rem 8rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.05)" d="M0,0 L100,0 L100,100 Q50,80 0,100 Z"></path></svg>') no-repeat;
+            background-size: cover;
+            background-position: bottom;
+            z-index: 1;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
 
         .profile-img {
             width: 180px;
@@ -43,64 +65,112 @@
             border-radius: 50%;
             border: 4px solid white;
             object-fit: cover;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            transition: transform 0.3s ease;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: grayscale(20%);
         }
 
         .profile-img:hover {
-            transform: scale(1.05);
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            filter: grayscale(0%);
         }
 
         h1 {
-            font-size: 2.5rem;
-            margin: 1rem 0;
-            font-weight: 700;
+            font-size: 2.8rem;
+            margin: 1.5rem 0;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .subtitle {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: rgba(255,255,255,0.9);
-            max-width: 500px;
+            max-width: 600px;
             margin: 0 auto;
+            font-weight: 300;
+            position: relative;
+            display: inline-block;
+        }
+
+        .subtitle::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: white;
+            margin: 1rem auto;
+            opacity: 0.5;
         }
 
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 1.5rem;
-            margin-top: 1.5rem;
+            gap: 1rem;
+            margin-top: 2rem;
         }
 
         .social-links a {
             color: white;
             text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            transition: background-color 0.3s;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--glass-effect);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
         .social-links a:hover {
-            background-color: rgba(255,255,255,0.2);
+            background-color: rgba(255,255,255,0.3);
+            transform: translateY(-3px);
         }
 
         main {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 4rem 1rem;
+            max-width: 1000px;
+            margin: -4rem auto 0;
+            padding: 0 1rem 4rem;
+            position: relative;
+            z-index: 3;
         }
 
         section {
-            background-color: white;
+            background-color: var(--bg-card);
             border-radius: 1rem;
             padding: 2.5rem;
             margin-bottom: 2.5rem;
-            box-shadow: 0 15px 35px rgba(50,50,93,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.03);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
         }
 
         h2 {
             color: var(--primary-color);
             margin-bottom: 1.5rem;
-            text-transform: lowercase;
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        h2::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
         }
 
         .skills-list {
@@ -110,62 +180,182 @@
         }
 
         .skill {
-            background-color: var(--bg-card);
-            color: var(--secondary-color);
-            padding: 0.5rem 1rem;
+            background-color: var(--bg-light);
+            color: var(--text-primary);
+            padding: 0.6rem 1.2rem;
             border-radius: 1.5rem;
             font-size: 0.9rem;
             transition: all 0.3s ease;
-            text-transform: lowercase;
+            border: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .skill::before {
+            content: '✓';
+            color: var(--secondary-color);
+            font-weight: bold;
         }
 
         .skill:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(106,90,205,0.2);
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
         }
 
         .projects {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
         }
 
         .project-card {
             background-color: var(--bg-card);
             border-radius: 1rem;
-            padding: 1.5rem;
+            padding: 1.8rem;
             text-decoration: none;
             color: inherit;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            border: 1px solid rgba(0,0,0,0.03);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background: var(--gradient);
+            transition: height 0.4s ease;
+        }
+
+        .project-card:hover::before {
+            height: 100%;
         }
 
         .project-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(106,90,205,0.15);
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.1);
         }
 
         .project-card h3 {
             color: var(--primary-color);
             margin-bottom: 0.75rem;
-            text-transform: lowercase;
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-card p {
+            color: var(--text-secondary);
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-icon {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+            position: relative;
+            z-index: 1;
         }
 
         footer {
             text-align: center;
-            padding: 2rem;
-            background-color: var(--primary-color);
+            padding: 3rem 1rem;
+            background: var(--gradient);
             color: white;
+            position: relative;
         }
 
-        @media (max-width: 640px) {
-            header {
-                padding: 3rem 1rem;
-            }
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10" preserveAspectRatio="none"><path fill="white" d="M0,0 L100,0 Q50,10 0,0 Z"></path></svg>') no-repeat;
+            background-size: 100% 100%;
+        }
 
+        .contact-btn {
+            display: inline-block;
+            background: white;
+            color: var(--primary-color);
+            padding: 0.8rem 2rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .tech-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gradient);
+            color: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tech-badge i {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
             h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            section {
+                padding: 2rem 1.5rem;
+            }
+        }
 
+        @media (max-width: 480px) {
+            header {
+                padding: 3rem 1rem 6rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .profile-img {
+                width: 140px;
+                height: 140px;
+            }
+            
             .projects {
                 grid-template-columns: 1fr;
             }
@@ -174,60 +364,116 @@
 </head>
 <body>
     <header>
-        <img src="images/profile.JPG" alt="Viviane Franco" class="profile-img">
-        <h1>viviane franco</h1>
-        <p class="subtitle">especialista em inovação | entusiasta de tecnologia</p>
-        <div class="social-links">
-            <a href="https://github.com/vivianefranco">GitHub</a>
-            <a href="https://www.linkedin.com/in/viviane-francos/">LinkedIn</a>
-            <a href="mailto:vivianefrancodasilva@gmail.com">Email</a>
+        <div class="header-content">
+            <img src="images/profile.JPG" alt="Viviane Franco" class="profile-img">
+            <h1>Viviane Franco</h1>
+            <p class="subtitle">Tecnologias Educacionais & Inteligência Artificial</p>
+            <div class="social-links">
+                <a href="https://github.com/vivianefranco" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/viviane-francos/" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="mailto:vivianefrancodasilva@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                <a href="#" aria-label="Portfólio"><i class="fas fa-briefcase"></i></a>
+            </div>
         </div>
     </header>
 
     <main>
         <section id="sobre">
-            <h2>sobre mim</h2>
+            <h2><i class="fas fa-user"></i> Sobre Mim</h2>
             <p>Sou especialista em inteligência artificial aplicada à educação, com experiência na criação de soluções inovadoras para aprimorar o aprendizado. Tenho paixão por tecnologia, inovação e ensino, buscando sempre novas formas de aplicar IA para transformar a experiência educacional.</p>
+            <p>Minha abordagem combina conhecimento técnico avançado com uma compreensão profunda das necessidades educacionais, criando pontes entre a tecnologia de ponta e as salas de aula.</p>
         </section>
 
         <section id="habilidades">
-            <h2>habilidades</h2>
+            <h2><i class="fas fa-code"></i> Habilidades</h2>
             <div class="skills-list">
-                <span class="skill">inteligência artificial</span>
-                <span class="skill">desenvolvimento web</span>
-                <span class="skill">machine learning</span>
-                <span class="skill">processamento de linguagem natural</span>
-                <span class="skill">gestão de projetos</span>
-                <span class="skill">análise de dados</span>
-                <span class="skill">revisão de textos</span>
+                <span class="skill">Inteligência Artificial</span>
+                <span class="skill">Desenvolvimento Web</span>
+                <span class="skill">Machine Learning</span>
+                <span class="skill">Processamento de Linguagem Natural</span>
+                <span class="skill">Gestão de Projetos</span>
+                <span class="skill">Análise de Dados</span>
+                <span class="skill">Revisão de Textos Automatizada</span>
+                <span class="skill">Design Instrucional</span>
+                <span class="skill">Integração de APIs</span>
+                <span class="skill">Chatbots Educacionais</span>
             </div>
         </section>
 
         <section id="projetos">
-            <h2>projetos</h2>
+            <h2><i class="fas fa-project-diagram"></i> Projetos</h2>
             <div class="projects">
                 <a href="projeto1.html" target="_blank" class="project-card">
-                    <h3>revisor automático de textos com ia</h3>
-                    <p>Desenvolvi um revisor automático utilizando GPT-4o-mini para aprimorar clareza, coesão e gramática em documentos .docx.</p>
+                    <div class="project-icon"><i class="fas fa-spell-check"></i></div>
+                    <h3>Revisor Automático de Textos com IA</h3>
+                    <p>Desenvolvi um revisor automático utilizando GPT-4o-mini para aprimorar clareza, coesão e gramática em documentos .docx, com integração direta ao Google Docs.</p>
                 </a>
                 <a href="projeto2.html" target="_blank" class="project-card">
-                    <h3>gerador automatizado de questões</h3>
-                    <p>Criei um sistema de IA para educadores elaborarem questões de múltipla escolha de forma ágil e eficiente.</p>
+                    <div class="project-icon"><i class="fas fa-question-circle"></i></div>
+                    <h3>Gerador Automatizado de Questões</h3>
+                    <p>Sistema de IA para educadores elaborarem questões de múltipla escolha de forma ágil, com adaptação automática a diferentes níveis de dificuldade.</p>
                 </a>
                 <a href="projeto3.html" target="_blank" class="project-card">
-                    <h3>capacitação em inteligência artificial</h3>
-                    <p>Ensino professores a integrar IA no ensino, desenvolvendo planos de aula e atividades com ferramentas avançadas.</p>
+                    <div class="project-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                    <h3>Capacitação em Inteligência Artificial</h3>
+                    <p>Programa completo para professores integrarem IA no ensino, com workshops práticos e desenvolvimento de planos de aula personalizados.</p>
                 </a>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>© 2025 viviane franco. todos os direitos reservados.</p>
+        <p>Transformando educação através da tecnologia</p>
+        <a href="mailto:vivianefrancodasilva@gmail.com" class="contact-btn">Entre em Contato</a>
+        <p style="margin-top: 2rem;">© 2025 Viviane Franco. Todos os direitos reservados.</p>
     </footer>
+
+    <div class="tech-badge">
+        <i class="fas fa-bolt"></i>
+        <span>Tecnologia Educacional Inovadora</span>
+    </div>
+
+    <script>
+        // Efeito de digitação no subtítulo
+        const subtitle = document.querySelector('.subtitle');
+        const originalText = "Tecnologias Educacionais & Inteligência Artificial";
+        let i = 0;
+        
+        function typeWriter() {
+            if (i < originalText.length) {
+                subtitle.textContent += originalText.charAt(i);
+                i++;
+                setTimeout(typeWriter, 50);
+            }
+        }
+        
+        // Inicia a animação após 1 segundo
+        setTimeout(() => {
+            subtitle.textContent = '';
+            typeWriter();
+        }, 1000);
+        
+        // Animação suave ao rolar
+        const sections = document.querySelectorAll('section');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        sections.forEach(section => {
+            section.style.opacity = 0;
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+    </script>
 </body>
 </html>
-
 
 
 
