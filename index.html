@@ -646,8 +646,32 @@
         
         // Animação suave ao rolar
         const observer = new IntersectionObserver((entries) => {
-            entries
-
-
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Deixa de observar depois de exibir a seção
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+        
+        // Efeito hover nos cards de projeto
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.zIndex = '5';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                setTimeout(() => {
+                    card.style.zIndex = '1';
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
 
 
