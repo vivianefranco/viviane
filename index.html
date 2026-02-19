@@ -3,112 +3,251 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfólio</title>
 
-    <!-- Fonte Poppins -->
+    <!-- SEO -->
+    <title>Viviane Franco | Produção de Conteúdo com IA</title>
+    <meta name="description" content="Viviane Franco - Especialista em Produção de Conteúdo com IA, engenharia de prompt, curadoria editorial e automação de fluxos com Inteligência Artificial Generativa.">
+
+    <!-- Fonte -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Ícones Font Awesome -->
+    <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
     <style>
-        /* Seu CSS começa aqui */
         :root {
             --primary-color: #8a2be2;
-            --secondary-color: #9370db;
             --accent-color: #ba55d3;
             --text-primary: #2d3748;
-            --text-secondary: #4a5568;
             --bg-light: #f7f9fc;
-            --bg-card: #ffffff;
             --gradient: linear-gradient(135deg, #8a2be2 0%, #ba55d3 100%);
-            --glass-effect: rgba(255, 255, 255, 0.15);
         }
 
-        *, *::before, *::after {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
         body {
-            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
             background-color: var(--bg-light);
-            scroll-behavior: smooth;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(138, 43, 226, 0.03) 0%, rgba(186, 85, 211, 0.03) 90%),
-                radial-gradient(circle at 90% 80%, rgba(138, 43, 226, 0.03) 0%, rgba(186, 85, 211, 0.03) 90%);
-            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.6;
         }
 
-        /* --- Aqui entra o restante do seu CSS original --- */
-        /* Colei seu código exatamente como enviado */
-        /* ... (cole todo o CSS que você me passou aqui) ... */
+        header {
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+            padding: 70px 20px;
+        }
+
+        .profile-img {
+            width: 160px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            border: 4px solid white;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-weight: 300;
+            margin-top: 10px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .social-links a {
+            color: white;
+            margin: 0 12px;
+            font-size: 1.4rem;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover {
+            opacity: 0.7;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 70px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            margin-bottom: 70px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 1.7rem;
+            color: var(--primary-color);
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .skill {
+            background: white;
+            padding: 10px 16px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .project-card {
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            text-decoration: none;
+            color: var(--text-primary);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-6px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: #ffffff;
+            font-size: 0.9rem;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 22px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+        }
+
+        .process-list {
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+
+        .process-list li {
+            margin-bottom: 8px;
+        }
+
     </style>
 </head>
 <body>
 
-    <!-- Cabeçalho -->
-    <header>
-        <div class="header-content">
-            <div class="profile-container">
-                <img src="https://via.placeholder.com/200" alt="Foto de Perfil" class="profile-img">
-            </div>
-            <h1>Seu Nome</h1>
-            <p class="subtitle">Desenvolvedora | Criadora de Soluções com IA</p>
-            <div class="social-links">
-                <a href="#"><i class="fab fa-github"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-    </header>
+<header>
+    <img src="sua-foto.jpg" alt="Foto de Viviane Franco" class="profile-img">
+    <h1>Viviane Franco</h1>
+    <p class="subtitle">
+        Especialista em Produção de Conteúdo com IA | Engenharia de Prompt | Curadoria Editorial e Automação de Fluxos
+    </p>
 
-    <!-- Conteúdo principal -->
-    <main>
-        <!-- Seção de Habilidades -->
-        <section class="visible">
-            <h2><i class="fas fa-code"></i> Habilidades</h2>
-            <div class="skills-list">
-                <span class="skill">HTML</span>
-                <span class="skill">CSS</span>
-                <span class="skill">JavaScript</span>
-                <span class="skill">Python</span>
-                <span class="skill">IA Generativa</span>
-            </div>
-        </section>
+    <div class="social-links">
+        <a href="SEU_LINK_GITHUB"><i class="fab fa-github"></i></a>
+        <a href="SEU_LINK_LINKEDIN"><i class="fab fa-linkedin"></i></a>
+    </div>
+</header>
 
-        <!-- Seção de Projetos -->
-        <section class="visible">
-            <h2><i class="fas fa-project-diagram"></i> Projetos</h2>
-            <div class="projects">
-                <a href="#" class="project-card">
-                    <div class="project-card-content">
-                        <div class="project-icon"><i class="fas fa-laptop-code"></i></div>
-                        <h3>Gerador de Questões</h3>
-                        <p>Ferramenta com IA para criar questões de múltipla escolha.</p>
-                    </div>
-                </a>
-                <a href="#" class="project-card">
-                    <div class="project-card-content">
-                        <div class="project-icon"><i class="fas fa-brain"></i></div>
-                        <h3>Chatbot Educacional</h3>
-                        <p>Assistente virtual treinado para dúvidas de alunos.</p>
-                    </div>
-                </a>
-            </div>
-        </section>
-    </main>
+<main>
 
-    <!-- Rodapé -->
-    <footer>
-        <p>© 2025 Seu Nome</p>
-        <a href="mailto:seuemail@email.com" class="contact-btn">Entre em Contato</a>
-    </footer>
+<section>
+    <h2>Sobre Mim</h2>
+    <p>
+        Profissional de Linguagens com atuação em produção, revisão e curadoria de conteúdo, especializada no uso de Inteligência Artificial Generativa para estruturar e escalar processos criativos com responsabilidade editorial.
+    </p>
+    <p>
+        Desenvolvo fluxos de trabalho que combinam engenharia de prompt, critérios linguísticos e validação humana, garantindo clareza, consistência textual e alinhamento com público-alvo.
+    </p>
+    <p>
+        Minha atuação integra tecnologia e narrativa, criando sistemas de geração e revisão assistida por IA que mantêm qualidade, precisão informacional e padronização.
+    </p>
+</section>
+
+<section>
+    <h2>Como Estruturo Produção com IA</h2>
+    <ul class="process-list">
+        <li>Planejamento estratégico e definição de parâmetros editoriais</li>
+        <li>Geração estruturada com prompts otimizados e controle de variáveis</li>
+        <li>Curadoria crítica e validação linguística</li>
+        <li>Padronização conforme diretrizes institucionais</li>
+        <li>Aprimoramento contínuo com testes e ajustes de prompt</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Competências</h2>
+    <div class="skills-list">
+        <span class="skill">Produção de Conteúdo com IA</span>
+        <span class="skill">Engenharia de Prompt</span>
+        <span class="skill">Curadoria e Validação de Conteúdo</span>
+        <span class="skill">Revisão e Padronização Linguística</span>
+        <span class="skill">Automação de Fluxos Editorais</span>
+        <span class="skill">Python e Integração com APIs</span>
+        <span class="skill">Análise Crítica de LLM</span>
+    </div>
+</section>
+
+<section>
+    <h2>Projetos</h2>
+    <div class="projects">
+
+        <a href="LINK_DO_PROJETO_1" class="project-card">
+            <h3>Sistema de Geração e Revisão de Conteúdo com IA</h3>
+            <p>
+                Estruturação de fluxo automatizado para produção de conteúdos com critérios linguísticos e validação humana, integrando modelos de linguagem via API.
+            </p>
+        </a>
+
+        <a href="LINK_DO_PROJETO_2" class="project-card">
+            <h3>Gerador de Conteúdos Educacionais Estruturados</h3>
+            <p>
+                Aplicação desenvolvida para criação de materiais educacionais com controle de tom, clareza e alinhamento pedagógico.
+            </p>
+        </a>
+
+        <a href="LINK_DO_PROJETO_3" class="project-card">
+            <h3>Assistente de Padronização Linguística</h3>
+            <p>
+                Sistema baseado em IA para revisão automatizada conforme manual institucional, garantindo consistência textual em larga escala.
+            </p>
+        </a>
+
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <p>© 2026 Viviane Franco</p>
+    <a href="mailto:seuemail@email.com" class="contact-btn">Entre em Contato</a>
+</footer>
 
 </body>
 </html>
+
+
 
 
