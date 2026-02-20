@@ -1,257 +1,763 @@
-
-graph TD
-  Mermaid --> Diagram
-  
-  
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- SEO -->
     <title>Viviane Franco | Produção de Conteúdo com IA</title>
     <meta name="description" content="Viviane Franco - Especialista em Produção de Conteúdo com IA, engenharia de prompt, curadoria editorial e automação de fluxos com Inteligência Artificial Generativa.">
 
-    <!-- Fonte -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --primary-color: #8a2be2;
-            --accent-color: #ba55d3;
-            --text-primary: #2d3748;
-            --bg-light: #f7f9fc;
-            --gradient: linear-gradient(135deg, #8a2be2 0%, #ba55d3 100%);
+            --ink: #1a1025;
+            --cream: #faf7f2;
+            --mist: #f0ebe3;
+            --plum: #5b2d82;
+            --violet: #7c3db8;
+            --rose: #c96a9b;
+            --gold: #d4a853;
+            --text-soft: #6b5f7a;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-primary);
-            line-height: 1.6;
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--ink);
+            overflow-x: hidden;
         }
 
+        /* ── NOISE TEXTURE OVERLAY ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.4;
+        }
+
+        /* ── HEADER ── */
         header {
-            background: var(--gradient);
-            color: white;
-            text-align: center;
-            padding: 70px 20px;
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-left {
+            background: var(--ink);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 60px 50px 70px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-left::after {
+            content: '';
+            position: absolute;
+            top: 0; right: -1px; bottom: 0;
+            width: 80px;
+            background: var(--ink);
+            clip-path: polygon(0 0, 30% 0, 100% 100%, 0 100%);
+            z-index: 3;
+        }
+
+        .header-right {
+            background: var(--plum);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-right::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(196,106,155,0.3) 0%, transparent 70%);
+            top: -100px;
+            right: -100px;
+        }
+
+        .header-right::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212,168,83,0.15) 0%, transparent 70%);
+            bottom: 50px;
+            left: 0;
+        }
+
+        .profile-container {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 320px;
+            z-index: 2;
         }
 
         .profile-img {
-            width: 160px;
+            width: 100%;
+            display: block;
+            filter: grayscale(20%);
+        }
+
+        /* Decorative elements */
+        .deco-circle {
+            position: absolute;
             border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .deco-1 { width: 200px; height: 200px; top: 40px; right: 40px; }
+        .deco-2 { width: 120px; height: 120px; top: 80px; right: 80px; }
+        .deco-3 { width: 60px; height: 60px; top: 110px; right: 110px; border-color: var(--gold); opacity: 0.4; }
+
+        .eyebrow {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--rose);
             margin-bottom: 20px;
-            border: 4px solid white;
         }
 
-        h1 {
-            font-size: 2.4rem;
-            font-weight: 700;
+        .header-name {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(3rem, 5vw, 5rem);
+            color: white;
+            line-height: 1;
+            margin-bottom: 30px;
         }
 
-        .subtitle {
+        .header-name em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .header-tagline {
+            color: rgba(255,255,255,0.55);
+            font-size: 0.95rem;
             font-weight: 300;
-            margin-top: 10px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
+            line-height: 1.7;
+            max-width: 360px;
+            margin-bottom: 50px;
+        }
+
+        .header-tagline strong {
+            color: rgba(255,255,255,0.85);
+            font-weight: 500;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
         }
 
         .social-links a {
-            color: white;
-            margin: 0 12px;
-            font-size: 1.4rem;
-            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 10px 18px;
+            border-radius: 100px;
+            transition: all 0.3s ease;
         }
 
         .social-links a:hover {
-            opacity: 0.7;
+            color: white;
+            border-color: var(--rose);
+            background: rgba(201,106,155,0.1);
         }
 
-        main {
-            max-width: 1000px;
-            margin: 70px auto;
-            padding: 0 20px;
-        }
-
-        section {
-            margin-bottom: 70px;
-        }
-
-        h2 {
-            margin-bottom: 20px;
-            font-size: 1.7rem;
-            color: var(--primary-color);
-        }
-
-        p {
-            margin-bottom: 15px;
-        }
-
-        .skills-list {
+        /* Scroll indicator */
+        .scroll-hint {
+            position: absolute;
+            bottom: 30px;
+            right: 50px;
+            color: rgba(255,255,255,0.3);
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            writing-mode: vertical-rl;
             display: flex;
-            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .scroll-hint::after {
+            content: '';
+            width: 1px;
+            height: 50px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+            animation: scrollLine 1.5s ease-in-out infinite;
+        }
+
+        @keyframes scrollLine {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* ── MAIN CONTENT ── */
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 100px 40px;
+        }
+
+        /* Section headers */
+        .section-label {
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--rose);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
             gap: 12px;
         }
 
-        .skill {
-            background: white;
-            padding: 10px 16px;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        .section-label::before {
+            content: '';
+            width: 30px;
+            height: 1px;
+            background: var(--rose);
         }
 
-        .projects {
+        .section-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            color: var(--ink);
+            margin-bottom: 40px;
+            line-height: 1.15;
+        }
+
+        .section-title em {
+            font-style: italic;
+            color: var(--plum);
+        }
+
+        section { margin-bottom: 110px; }
+
+        /* ── SOBRE ── */
+        .sobre-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: 3fr 2fr;
+            gap: 80px;
+            align-items: start;
         }
 
-        .project-card {
+        .sobre-text p {
+            color: var(--text-soft);
+            font-size: 1.05rem;
+            line-height: 1.85;
+            margin-bottom: 20px;
+        }
+
+        .sobre-text p strong {
+            color: var(--ink);
+            font-weight: 500;
+        }
+
+        .sobre-sidebar {
+            padding-top: 20px;
+        }
+
+        .stat-item {
+            padding: 28px 0;
+            border-bottom: 1px solid var(--mist);
+        }
+
+        .stat-number {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.8rem;
+            color: var(--plum);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-soft);
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* ── PROCESSO ── */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0;
+            border: 1px solid var(--mist);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .process-step {
+            padding: 35px 25px;
+            position: relative;
             background: white;
-            padding: 30px;
-            border-radius: 18px;
+            transition: background 0.3s;
+        }
+
+        .process-step:not(:last-child) {
+            border-right: 1px solid var(--mist);
+        }
+
+        .process-step:hover {
+            background: var(--ink);
+        }
+
+        .process-step:hover .step-num,
+        .process-step:hover .step-title,
+        .process-step:hover .step-desc {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .process-step:hover .step-num {
+            color: var(--gold);
+        }
+
+        .step-num {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.5rem;
+            color: var(--mist);
+            line-height: 1;
+            margin-bottom: 20px;
+            transition: color 0.3s;
+        }
+
+        .step-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--ink);
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+
+        .step-desc {
+            font-size: 0.8rem;
+            color: var(--text-soft);
+            line-height: 1.6;
+            transition: color 0.3s;
+        }
+
+        /* ── COMPETÊNCIAS ── */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .skill-tag {
+            background: white;
+            border: 1px solid var(--mist);
+            padding: 16px 20px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            color: var(--ink);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.25s;
+            cursor: default;
+        }
+
+        .skill-tag::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--rose);
+            flex-shrink: 0;
+        }
+
+        .skill-tag:hover {
+            border-color: var(--plum);
+            color: var(--plum);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(91,45,130,0.08);
+        }
+
+        /* ── PROJETOS ── */
+        .projects-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .project-item {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 30px;
+            padding: 35px 40px;
+            background: white;
+            border-radius: 12px;
             text-decoration: none;
-            color: var(--text-primary);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transition: 0.3s;
+            color: var(--ink);
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            margin-bottom: 10px;
         }
 
-        .project-card:hover {
-            transform: translateY(-6px);
+        .project-item:hover {
+            border-color: var(--plum);
+            transform: translateX(8px);
+            box-shadow: -4px 0 0 var(--plum), 0 12px 35px rgba(91,45,130,0.08);
         }
 
+        .project-num {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.2rem;
+            color: var(--mist);
+            min-width: 40px;
+        }
+
+        .project-item:hover .project-num {
+            color: var(--plum);
+        }
+
+        .project-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .project-desc {
+            font-size: 0.88rem;
+            color: var(--text-soft);
+            line-height: 1.55;
+        }
+
+        .project-arrow {
+            font-size: 1.2rem;
+            color: var(--mist);
+            transition: all 0.3s;
+        }
+
+        .project-item:hover .project-arrow {
+            color: var(--plum);
+            transform: translateX(4px);
+        }
+
+        /* ── FOOTER ── */
         footer {
+            background: var(--ink);
+            padding: 70px 40px;
             text-align: center;
-            padding: 40px;
-            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: 'VF';
+            position: absolute;
+            font-family: 'DM Serif Display', serif;
+            font-size: 20rem;
+            color: rgba(255,255,255,0.02);
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .footer-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .footer-sub {
+            color: rgba(255,255,255,0.4);
             font-size: 0.9rem;
+            margin-bottom: 40px;
         }
 
         .contact-btn {
             display: inline-block;
-            margin-top: 15px;
-            padding: 10px 22px;
-            background: var(--primary-color);
+            padding: 16px 40px;
+            background: var(--rose);
             color: white;
-            border-radius: 25px;
             text-decoration: none;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            transition: all 0.3s;
         }
 
-        .process-list {
-            margin-top: 15px;
-            padding-left: 20px;
+        .contact-btn:hover {
+            background: var(--gold);
+            color: var(--ink);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(212,168,83,0.3);
         }
 
-        .process-list li {
-            margin-bottom: 8px;
+        .footer-copy {
+            margin-top: 60px;
+            color: rgba(255,255,255,0.2);
+            font-size: 0.78rem;
+            letter-spacing: 0.1em;
         }
 
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header-left > * {
+            animation: fadeUp 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        .eyebrow { animation-delay: 0.1s; }
+        .header-name { animation-delay: 0.25s; }
+        .header-tagline { animation-delay: 0.4s; }
+        .social-links { animation-delay: 0.55s; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            header {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .header-left {
+                padding: 80px 30px 60px;
+                order: 2;
+            }
+
+            .header-left::after { display: none; }
+
+            .header-right {
+                order: 1;
+                min-height: 350px;
+            }
+
+            .profile-container {
+                width: 230px;
+            }
+
+            .sobre-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .process-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .process-step:nth-child(2) { border-right: none; }
+            .process-step:not(:last-child) { border-bottom: 1px solid var(--mist); }
+
+            main { padding: 70px 25px; }
+        }
+
+        @media (max-width: 600px) {
+            .process-grid { grid-template-columns: 1fr; }
+            .process-step:not(:last-child) { border-right: none; }
+
+            .project-item {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 25px;
+            }
+
+            .project-num { display: none; }
+            .project-arrow { display: none; }
+        }
     </style>
 </head>
 <body>
 
+<!-- ── HEADER ── -->
 <header>
-    <img src="profile.jpg" alt="Foto de Viviane Franco" class="profile-img">
-    <h1>Viviane Franco</h1>
-    <p class="subtitle">
-        especialista em produção de conteúdo com IA | engenharia de prompt | curadoria editorial e automação de fluxos
-    </p>
-
-    <div class="social-links">
-        <a href="SEU_LINK_GITHUB"><i class="fab fa-github"></i></a>
-        <a href="SEU_LINK_LINKEDIN"><i class="fab fa-linkedin"></i></a>
+    <div class="header-left">
+        <p class="eyebrow">Portfólio 2026</p>
+        <h1 class="header-name">Viviane<br><em>Franco</em></h1>
+        <p class="header-tagline">
+            <strong>Especialista em produção de conteúdo com IA</strong> — engenharia de prompt, curadoria editorial e automação de fluxos com Inteligência Artificial Generativa.
+        </p>
+        <div class="social-links">
+            <a href="SEU_LINK_GITHUB">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                GitHub
+            </a>
+            <a href="SEU_LINK_LINKEDIN">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+            </a>
+        </div>
     </div>
+
+    <div class="header-right">
+        <div class="deco-circle deco-1"></div>
+        <div class="deco-circle deco-2"></div>
+        <div class="deco-circle deco-3"></div>
+        <div class="profile-container">
+            <img src="profile.jpg" alt="Viviane Franco" class="profile-img">
+        </div>
+    </div>
+
+    <div class="scroll-hint">scroll</div>
 </header>
 
+<!-- ── MAIN ── -->
 <main>
 
-<section>
-    <h2>sobre mim</h2>
-    <p>
-        Profissional de linguagens com atuação em produção, revisão e curadoria de conteúdo, especializada no uso de Inteligência Artificial Generativa para estruturar e escalar processos de trabalho.
-    </p>
-    <p>
-        Desenvolvo fluxos de trabalho que combinam engenharia de prompt, critérios linguísticos e validação humana, garantindo clareza, consistência textual e alinhamento com público-alvo.
-    </p>
-    <p>
-        Minha atuação integra tecnologia e narrativa, criando sistemas de geração e revisão assistida por IA que mantêm qualidade, precisão informacional e padronização.
-    </p>
-</section>
+    <!-- SOBRE -->
+    <section>
+        <div class="section-label">Quem sou</div>
+        <div class="sobre-grid">
+            <div class="sobre-text">
+                <h2 class="section-title">Onde <em>linguagem</em> encontra inteligência</h2>
+                <p>
+                    Sou profissional de linguagens com atuação em <strong>produção, revisão e curadoria de conteúdo</strong>, especializada no uso de Inteligência Artificial Generativa para estruturar e escalar processos editoriais.
+                </p>
+                <p>
+                    Desenvolvo fluxos de trabalho que combinam <strong>engenharia de prompt</strong>, critérios linguísticos e validação humana — garantindo clareza, consistência textual e alinhamento com público-alvo.
+                </p>
+                <p>
+                    Minha atuação integra tecnologia e narrativa, criando sistemas de geração e revisão assistida por IA que mantêm <strong>qualidade, precisão informacional e padronização</strong> em escala.
+                </p>
+            </div>
+            <div class="sobre-sidebar">
+                <div class="stat-item">
+                    <div class="stat-number">7+</div>
+                    <div class="stat-label">Anos em produção de conteúdo</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Projetos com IA em produção</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Validação humana nos fluxos</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<section>
-    <h2>Como Estruturo Produção com IA</h2>
-    <ul class="process-list">
-        <li>Planejamento estratégico e definição de parâmetros editoriais</li>
-        <li>Geração estruturada com prompts otimizados e controle de variáveis</li>
-        <li>Curadoria crítica e validação linguística</li>
-        <li>Padronização conforme diretrizes institucionais</li>
-        <li>Aprimoramento contínuo com testes e ajustes de prompt</li>
-    </ul>
-</section>
+    <!-- PROCESSO -->
+    <section>
+        <div class="section-label">Método</div>
+        <h2 class="section-title">Como estruturo <em>produção com IA</em></h2>
+        <div class="process-grid">
+            <div class="process-step">
+                <div class="step-num">01</div>
+                <div class="step-title">Planejamento</div>
+                <div class="step-desc">Definição de parâmetros editoriais e objetivos estratégicos</div>
+            </div>
+            <div class="process-step">
+                <div class="step-num">02</div>
+                <div class="step-title">Geração</div>
+                <div class="step-desc">Prompts otimizados com controle preciso de variáveis</div>
+            </div>
+            <div class="process-step">
+                <div class="step-num">03</div>
+                <div class="step-title">Curadoria</div>
+                <div class="step-desc">Validação crítica linguística e verificação factual</div>
+            </div>
+            <div class="process-step">
+                <div class="step-num">04</div>
+                <div class="step-title">Padronização</div>
+                <div class="step-desc">Alinhamento com diretrizes e tom institucional</div>
+            </div>
+            <div class="process-step">
+                <div class="step-num">05</div>
+                <div class="step-title">Refinamento</div>
+                <div class="step-desc">Ajustes contínuos com base em testes e feedback</div>
+            </div>
+        </div>
+    </section>
 
-<section>
-    <h2>Competências</h2>
-    <div class="skills-list">
-        <span class="skill">Produção de Conteúdo com IA</span>
-        <span class="skill">Engenharia de Prompt</span>
-        <span class="skill">Curadoria e Validação de Conteúdo</span>
-        <span class="skill">Revisão e Padronização Linguística</span>
-        <span class="skill">Automação de Fluxos Editorais</span>
-        <span class="skill">Python e Integração com APIs</span>
-        <span class="skill">Análise Crítica de LLM</span>
-    </div>
-</section>
+    <!-- COMPETÊNCIAS -->
+    <section>
+        <div class="section-label">Habilidades</div>
+        <h2 class="section-title"><em>Competências</em> técnicas</h2>
+        <div class="skills-grid">
+            <div class="skill-tag">Produção de Conteúdo com IA</div>
+            <div class="skill-tag">Engenharia de Prompt</div>
+            <div class="skill-tag">Curadoria e Validação</div>
+            <div class="skill-tag">Revisão Linguística</div>
+            <div class="skill-tag">Automação de Fluxos Editoriais</div>
+            <div class="skill-tag">Python & APIs</div>
+            <div class="skill-tag">Análise Crítica de LLMs</div>
+            <div class="skill-tag">Padronização Institucional</div>
+        </div>
+    </section>
 
-<section>
-    <h2>Projetos</h2>
-    <div class="projects">
+    <!-- PROJETOS -->
+    <section>
+        <div class="section-label">Trabalhos</div>
+        <h2 class="section-title">Projetos <em>em destaque</em></h2>
+        <div class="projects-list">
 
-        <a href="LINK_DO_PROJETO_1" class="project-card">
-            <h3>Sistema de Geração e Revisão de Conteúdo com IA</h3>
-            <p>
-                Estruturação de fluxo automatizado para produção de conteúdos com critérios linguísticos e validação humana, integrando modelos de linguagem via API.
-            </p>
-        </a>
+            <a href="LINK_DO_PROJETO_1" class="project-item">
+                <div class="project-num">01</div>
+                <div>
+                    <div class="project-title">Sistema de Geração e Revisão de Conteúdo com IA</div>
+                    <div class="project-desc">Fluxo automatizado para produção com critérios linguísticos e validação humana, integrando LLMs via API.</div>
+                </div>
+                <div class="project-arrow">→</div>
+            </a>
 
-        <a href="LINK_DO_PROJETO_2" class="project-card">
-            <h3>Gerador de Conteúdos Educacionais Estruturados</h3>
-            <p>
-                Aplicação desenvolvida para criação de materiais educacionais com controle de tom, clareza e alinhamento pedagógico.
-            </p>
-        </a>
+            <a href="LINK_DO_PROJETO_2" class="project-item">
+                <div class="project-num">02</div>
+                <div>
+                    <div class="project-title">Gerador de Conteúdos Educacionais Estruturados</div>
+                    <div class="project-desc">Aplicação para criação de materiais educacionais com controle de tom, clareza e alinhamento pedagógico.</div>
+                </div>
+                <div class="project-arrow">→</div>
+            </a>
 
-        <a href="LINK_DO_PROJETO_3" class="project-card">
-            <h3>Assistente de Padronização Linguística</h3>
-            <p>
-                Sistema baseado em IA para revisão automatizada conforme manual institucional, garantindo consistência textual em larga escala.
-            </p>
-        </a>
+            <a href="LINK_DO_PROJETO_3" class="project-item">
+                <div class="project-num">03</div>
+                <div>
+                    <div class="project-title">Assistente de Padronização Linguística</div>
+                    <div class="project-desc">Sistema baseado em IA para revisão automatizada conforme manual institucional, garantindo consistência em larga escala.</div>
+                </div>
+                <div class="project-arrow">→</div>
+            </a>
 
-    </div>
-</section>
+        </div>
+    </section>
 
 </main>
 
+<!-- ── FOOTER ── -->
 <footer>
-    <p>© 2026 Viviane Franco</p>
+    <p class="footer-title">Vamos conversar?</p>
+    <p class="footer-sub">Aberta a colaborações, projetos e oportunidades.</p>
     <a href="mailto:seuemail@email.com" class="contact-btn">Entre em Contato</a>
+    <p class="footer-copy">© 2026 Viviane Franco — Todos os direitos reservados</p>
 </footer>
 
 </body>
-</html
-
-
-
+</html>
