@@ -4,99 +4,628 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>revisor automático de textos com IA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #6a5acd;
-            --secondary-color: #8a4fff;
-            --text-primary: #1f2937;
-            --bg-light: #f8f5ff;
+            --ink: #0f0e17;
+            --paper: #f9f4ef;
+            --accent: #e8643c;
+            --muted: #a7a9be;
+            --light: #fffffe;
+            --mid: #eee8e0;
         }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            color: var(--text-primary);
-            background-color: var(--bg-light);
-            margin: 0;
-            padding: 0;
+            font-family: 'Lato', sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            min-height: 100vh;
         }
 
+        /* ── HEADER ── */
         header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            text-align: center;
-            padding: 2rem;
-            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            position: relative;
+            padding: 5rem 2rem 6rem;
+            overflow: hidden;
+            background: var(--ink);
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.04) 39px, rgba(255,255,255,0.04) 40px),
+                repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.04) 39px, rgba(255,255,255,0.04) 40px);
+        }
+
+        .header-tag {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            display: inline-block;
+            border: 1px solid var(--accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: 2px;
+            margin-bottom: 1.5rem;
+            position: relative;
+            animation: fadeUp 0.6s ease both;
         }
 
         h1 {
-            font-size: 2rem;
-            text-transform: lowercase;
-            margin: 0;
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.4rem, 6vw, 4.5rem);
+            color: var(--light);
+            line-height: 1.1;
+            max-width: 700px;
+            position: relative;
+            animation: fadeUp 0.6s 0.1s ease both;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
+        h1 em {
+            font-style: italic;
+            color: var(--accent);
         }
 
-        .project-content {
+        .header-sub {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-top: 1.5rem;
+            position: relative;
+            animation: fadeUp 0.6s 0.2s ease both;
+            letter-spacing: 0.05em;
+        }
+
+        /* Decoração: linhas de texto estilizadas */
+        .header-decoration {
+            position: absolute;
+            right: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 200px;
+            opacity: 0.06;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .deco-line {
+            height: 2px;
             background: white;
-            border-radius: 1rem;
-            padding: 2rem;
-            margin-top: -3rem;
-            box-shadow: 0 15px 35px rgba(50,50,93,0.1);
+            border-radius: 2px;
         }
 
-        img {
+        /* ── MAIN CONTAINER ── */
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* ── SCREENSHOT ── */
+        .screenshot-wrap {
+            position: relative;
+            margin-bottom: 4rem;
+            animation: fadeUp 0.7s 0.3s ease both;
+        }
+
+        .screenshot-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .screenshot-frame {
+            border: 1px solid rgba(15,14,23,0.12);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 8px 8px 0px var(--ink);
+            background: var(--light);
+        }
+
+        .screenshot-bar {
+            background: var(--ink);
+            height: 32px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0 14px;
+        }
+
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .dot:nth-child(1) { background: #ff5f57; }
+        .dot:nth-child(2) { background: #ffbd2e; }
+        .dot:nth-child(3) { background: #28c840; }
+
+        .screenshot-wrap img {
             width: 100%;
-            max-width: 600px;
             height: auto;
-            border-radius: 0.5rem;
             display: block;
-            margin: 2rem auto;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        p {
-            margin: 1.5rem 0;
-            line-height: 1.8;
+        .screenshot-placeholder {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.2);
+            font-family: 'DM Mono', monospace;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+        }
+
+        /* ── INTRO ── */
+        .intro-text {
+            font-size: 1.2rem;
+            line-height: 1.85;
+            color: #2d2b3d;
+            font-weight: 300;
+            margin-bottom: 3.5rem;
+            border-left: 3px solid var(--accent);
+            padding-left: 1.5rem;
+            animation: fadeUp 0.7s 0.4s ease both;
+        }
+
+        /* ── SECTION TITLE ── */
+        .section-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            color: var(--ink);
+        }
+
+        /* ── FEATURES ── */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 4rem;
+            animation: fadeUp 0.7s 0.5s ease both;
+        }
+
+        .feature-card {
+            background: var(--light);
+            border: 1px solid var(--mid);
+            border-radius: 6px;
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 4px 4px 0 var(--ink);
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: #4a4860;
+        }
+
+        /* ── FLOW SECTION ── */
+        .flow-section {
+            background: var(--ink);
+            color: var(--light);
+            border-radius: 8px;
+            padding: 2.5rem;
+            margin-bottom: 4rem;
+            animation: fadeUp 0.7s 0.6s ease both;
+        }
+
+        .flow-section .section-title {
+            color: var(--light);
+            margin-bottom: 0.5rem;
+        }
+
+        .flow-intro {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .flow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .flow-step {
+            display: flex;
+            gap: 1.25rem;
+            align-items: flex-start;
+            padding: 1.1rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            animation: fadeUp 0.5s ease both;
+        }
+
+        .flow-step:last-child { border-bottom: none; }
+
+        .flow-num {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--accent);
+            background: rgba(232, 100, 60, 0.12);
+            border: 1px solid rgba(232, 100, 60, 0.3);
+            border-radius: 2px;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .flow-content h4 {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--light);
+            margin-bottom: 0.3rem;
+        }
+
+        .flow-content p {
+            font-size: 0.88rem;
+            color: var(--muted);
+            line-height: 1.55;
+        }
+
+        /* ── CRITERIA SECTION ── */
+        .criteria-section {
+            margin-bottom: 4rem;
+            animation: fadeUp 0.7s 0.65s ease both;
+        }
+
+        .criteria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .criteria-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--light);
+            border: 1px solid var(--mid);
+            border-radius: 5px;
+            padding: 0.75rem 1rem;
+            font-size: 0.88rem;
+            color: var(--ink);
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .criteria-item:hover {
+            border-color: var(--accent);
+            background: #fff8f5;
+        }
+
+        .criteria-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+        }
+
+        /* ── TECH STACK ── */
+        .tech-section {
+            margin-bottom: 4rem;
+            animation: fadeUp 0.7s 0.7s ease both;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 1rem;
+        }
+
+        .tech-tag {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.78rem;
+            letter-spacing: 0.08em;
+            padding: 0.35rem 0.85rem;
+            border: 1.5px solid var(--ink);
+            border-radius: 2px;
+            background: transparent;
+            transition: background 0.2s, color 0.2s;
+            cursor: default;
+        }
+
+        .tech-tag:hover {
+            background: var(--ink);
+            color: var(--light);
+        }
+
+        /* ── RESULTS ── */
+        .results-section {
+            margin-bottom: 4rem;
+            animation: fadeUp 0.7s 0.75s ease both;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .result-card {
+            background: var(--light);
+            border: 1px solid var(--mid);
+            border-radius: 6px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+        }
+
+        .result-number {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.8rem;
+            color: var(--accent);
+            line-height: 1;
+            display: block;
+        }
+
+        .result-label {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-top: 0.4rem;
+            line-height: 1.4;
+        }
+
+        /* ── NAV ── */
+        .nav-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--mid);
+            animation: fadeUp 0.7s 0.85s ease both;
         }
 
         .back-button {
-            display: inline-block;
-            margin-top: 2rem;
-            color: var(--primary-color);
+            font-family: 'DM Mono', monospace;
+            font-size: 0.82rem;
+            letter-spacing: 0.08em;
+            color: var(--ink);
             text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid currentColor;
+            padding-bottom: 2px;
+            transition: color 0.2s;
         }
 
-        .back-button:hover {
-            color: var(--secondary-color);
+        .back-button:hover { color: var(--accent); }
+
+        .github-link {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.82rem;
+            letter-spacing: 0.08em;
+            color: var(--light);
+            background: var(--ink);
+            text-decoration: none;
+            padding: 0.5rem 1.25rem;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+
+        .github-link:hover { background: var(--accent); }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .results-grid { grid-template-columns: 1fr; }
+            .header-decoration { display: none; }
+            .flow-section { padding: 1.75rem; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>revisor automático de textos com IA</h1>
-    </header>
 
-    <div class="container">
-        <div class="project-content">
-            <img src="images/print_revisor.png" alt="Imagem do Revisor IA">
-            <p>Desenvolvi um revisor automático utilizando GPT-4o-mini para aprimorar clareza, coesão e gramática em documentos .docx. O sistema é capaz de analisar textos em português e fornecer sugestões de melhorias em tempo real.</p>
-            
-            <p>O projeto teve como principal objetivo auxiliar professores e alunos na revisão de trabalhos acadêmicos, tornando o processo mais eficiente e educativo. A ferramenta não apenas corrige erros, mas também explica as sugestões, contribuindo para o aprendizado do usuário.</p>
-            
-            <p>Resultados alcançados:
-            - Redução de 60% no tempo de revisão
-            - Melhoria significativa na qualidade dos textos
-            - Feedback positivo de 90% dos usuários</p>
+<header>
+    <!-- Decoração: linhas evocando linhas de texto -->
+    <div class="header-decoration" aria-hidden="true">
+        <div class="deco-line" style="width:100%"></div>
+        <div class="deco-line" style="width:80%"></div>
+        <div class="deco-line" style="width:95%"></div>
+        <div class="deco-line" style="width:60%"></div>
+        <div class="deco-line" style="width:88%"></div>
+        <div class="deco-line" style="width:45%"></div>
+        <div class="deco-line" style="width:100%"></div>
+        <div class="deco-line" style="width:72%"></div>
+        <div class="deco-line" style="width:90%"></div>
+        <div class="deco-line" style="width:55%"></div>
+        <div class="deco-line" style="width:100%"></div>
+        <div class="deco-line" style="width:35%"></div>
+    </div>
 
-            <a href="index.html" class="back-button">← voltar para página inicial</a>
+    <div class="container" style="padding-top:0; padding-bottom:0;">
+        <div class="header-tag">projeto — ia generativa</div>
+        <h1>revisor de textos <em>inteligente</em></h1>
+        <p class="header-sub">python · api de ia · critérios personalizados · documentos .docx</p>
+    </div>
+</header>
+
+<div class="container">
+
+    <!-- SCREENSHOT -->
+    <div class="screenshot-wrap">
+        <div class="screenshot-label">interface do sistema</div>
+        <div class="screenshot-frame">
+            <div class="screenshot-bar">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            <img src="images/print_revisor.png" alt="Interface do Revisor de Textos com IA"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="screenshot-placeholder">[ screenshot do sistema ]</div>
         </div>
     </div>
+
+    <!-- INTRO -->
+    <p class="intro-text">
+        Sistema desenvolvido em Python que usa IA para revisar documentos longos enviados pelo usuário em formato .docx. A ferramenta analisa o texto conforme critérios de revisão personalizados e devolve o documento corrigido e aprimorado, pronto para uso.
+    </p>
+
+    <!-- FEATURES -->
+    <div class="feature-grid">
+        <div class="feature-card">
+            <span class="feature-icon">📄</span>
+            <h3>upload de documentos</h3>
+            <p>Aceita arquivos .docx de qualquer extensão, inclusive textos longos, processando o conteúdo de forma íntegra e estruturada.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">🎛️</span>
+            <h3>critérios personalizados</h3>
+            <p>O usuário define os parâmetros de revisão — tom, norma culta, estilo, público-alvo — e a IA ajusta sua análise a cada contexto.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">✍️</span>
+            <h3>revisão inteligente</h3>
+            <p>A IA aprimora gramática, coesão, clareza e estilo sem descaracterizar a voz original do autor.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">📥</span>
+            <h3>documento revisado</h3>
+            <p>O sistema devolve o arquivo .docx já revisado, mantendo a formatação original e incorporando todas as melhorias.</p>
+        </div>
+    </div>
+
+    <!-- FLOW -->
+    <div class="flow-section">
+        <h2 class="section-title">como funciona</h2>
+        <p class="flow-intro">O processo é simples para o usuário, mas robusto por baixo dos panos.</p>
+        <div class="flow-steps">
+            <div class="flow-step">
+                <div class="flow-num">01</div>
+                <div class="flow-content">
+                    <h4>envio do documento</h4>
+                    <p>O usuário faz o upload do arquivo .docx diretamente na interface do sistema.</p>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-num">02</div>
+                <div class="flow-content">
+                    <h4>configuração dos critérios</h4>
+                    <p>Os parâmetros de revisão já foram predefinidos e podem ser personalizados: finalidade do texto, nível de linguagem, normas a seguir e prioridades de ajuste.</p>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-num">03</div>
+                <div class="flow-content">
+                    <h4>processamento com ia</h4>
+                    <p>O sistema divide o documento em blocos, envia cada trecho à API de IA com o contexto dos critérios e recebe as revisões segmento a segmento.</p>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-num">04</div>
+                <div class="flow-content">
+                    <h4>reconstrução do arquivo</h4>
+                    <p>Python remonta o documento .docx com o conteúdo revisado, preservando estrutura, títulos e formatação originais.</p>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-num">05</div>
+                <div class="flow-content">
+                    <h4>download do resultado</h4>
+                    <p>O arquivo revisado fica disponível para download imediato, pronto para entrega.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CRITERIA -->
+    <div class="criteria-section">
+        <h2 class="section-title">alguns critérios de revisão possíveis</h2>
+        <div class="criteria-grid">
+            <div class="criteria-item"><div class="criteria-dot"></div>gramática e ortografia</div>
+            <div class="criteria-item"><div class="criteria-dot"></div>coesão e coerência</div>
+            <div class="criteria-item"><div class="criteria-dot"></div>clareza e objetividade</div>
+            <div class="criteria-item"><div class="criteria-dot"></div>adequação de tom</div>
+            <div class="criteria-item"><div class="criteria-dot"></div>norma culta</div>
+            <div class="criteria-item"><div class="criteria-dot"></div>estilo e fluidez</div>
+            <div class="criteria-item"><div class="criteria-dot"></div>público-alvo</div>
+            <div class="criteria-item"><div class="criteria-dot"></div>vocabulário técnico</div>
+        </div>
+    </div>
+
+    <!-- TECH -->
+    <div class="tech-section">
+        <h2 class="section-title">tecnologias utilizadas</h2>
+        <div class="tech-tags">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">OpenAI API</span>
+            <span class="tech-tag">GPT-4o-mini</span>
+            <span class="tech-tag">python-docx</span>
+            <span class="tech-tag">Streamlit</span>
+            <span class="tech-tag">Prompt Engineering</span>
+            <span class="tech-tag">Chunking de Texto</span>
+            <span class="tech-tag">NLP</span>
+        </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="results-section">
+        <h2 class="section-title">resultados</h2>
+        <div class="results-grid">
+            <div class="result-card">
+                <span class="result-number">90%</span>
+                <span class="result-label">redução no tempo de revisão</span>
+            </div>
+            <div class="result-card">
+                <span class="result-number">80%</span>
+                <span class="result-label">preservação da formatação original</span>
+            </div>
+            <div class="result-card">
+                <span class="result-number">100%</span>
+                <span class="result-label">personalizável</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAV -->
+    <div class="nav-row">
+        <a href="index.html" class="back-button">← página inicial</a>
+        <a href="#" class="github-link">ver no github →</a>
+    </div>
+
+</div>
+
 </body>
 </html>
