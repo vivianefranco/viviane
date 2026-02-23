@@ -1,1 +1,1 @@
-# Especialista em IA na Educação
+# Especialista em IA na produção de conteúdo
