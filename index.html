@@ -75,7 +75,7 @@
             position: relative;
             overflow: hidden;
             display: flex;
-            align-items: flex-end;
+            align-items: center;
             justify-content: center;
         }
 
@@ -103,86 +103,146 @@
             pointer-events: none;
         }
 
-        /* ── PROFILE PHOTO SYSTEM ── */
+        /* ── PROFILE PHOTO SYSTEM (REDONDO) ── */
+
+        /* Container central — empilha anel + sombra */
         .profile-container {
             position: relative;
-            bottom: 0;
-            width: 340px;
             z-index: 2;
-            flex-shrink: 0;
-        }
-
-        /* The <img> tag — shows when photo loads correctly */
-        .profile-img {
-            width: 100%;
-            display: block;
-            filter: grayscale(15%) contrast(1.05);
-            object-fit: cover;
-            object-position: top center;
-        }
-
-        /* Fallback: shown when image fails or is missing */
-        .profile-fallback {
-            display: none; /* hidden by default; JS shows it on error */
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--violet), var(--rose));
-            border: 3px solid rgba(255,255,255,0.18);
+            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 60px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+            padding: 50px 40px;
+            flex-shrink: 0;
+            animation: profileIn 1s ease 0.35s both;
+        }
+
+        @keyframes profileIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /*
+         * Anel com gradiente cônico animado.
+         * Cria a borda luminosa rotativa (rose → gold → violet).
+         */
+        .profile-ring {
             position: relative;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            padding: 4px; /* espessura da borda luminosa */
+
+            background: conic-gradient(
+                from 0deg,
+                var(--rose),
+                var(--gold),
+                var(--violet),
+                var(--rose),
+                var(--gold),
+                var(--violet),
+                var(--rose)
+            );
+            animation: rotateBorder 6s linear infinite;
+
+            /* Brilho externo difuso */
+            box-shadow:
+                0 0 30px rgba(201, 106, 155, 0.55),
+                0 0 70px rgba(124, 61, 184, 0.35),
+                0 0 120px rgba(212, 168, 83, 0.18);
+        }
+
+        @keyframes rotateBorder {
+            from { filter: hue-rotate(0deg) brightness(1.1); }
+            to   { filter: hue-rotate(360deg) brightness(1.1); }
+        }
+
+        /*
+         * Círculo interno — garante o corte redondo automático.
+         * overflow: hidden corta qualquer imagem em círculo perfeito.
+         */
+        .profile-ring-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
             overflow: hidden;
+            background: var(--plum);
+            position: relative;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* A foto: sempre redonda, cropada automaticamente, sem distorção */
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;           /* crop automático */
+            object-position: center top; /* prioriza o rosto */
+            border-radius: 50%;
+            filter: contrast(1.04) saturate(1.05);
+            transition: transform 0.5s ease;
+        }
+
+        .profile-ring:hover .profile-img {
+            transform: scale(1.04);
+        }
+
+        /* Reflexo de luz suave no topo-esquerdo */
+        .profile-ring-inner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: radial-gradient(
+                circle at 32% 28%,
+                rgba(255, 255, 255, 0.12) 0%,
+                transparent 55%
+            );
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Fallback com iniciais — visível se a imagem falhar */
+        .profile-fallback {
+            display: none; /* JS ativa via handlePhotoError() */
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--violet) 0%, var(--rose) 100%);
+            align-items: center;
+            justify-content: center;
+            position: relative;
         }
 
         .profile-fallback::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.18), transparent 65%);
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.2), transparent 60%);
         }
 
         .profile-fallback-initials {
             font-family: 'DM Serif Display', serif;
-            font-size: 4.5rem;
+            font-size: 5rem;
             color: white;
             letter-spacing: -2px;
             position: relative;
             z-index: 1;
         }
 
-        /* Upload hint — visible only on hover when using fallback */
-        .profile-upload-hint {
-            display: none;
-            position: absolute;
-            bottom: -36px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.7rem;
-            color: rgba(255,255,255,0.45);
-            white-space: nowrap;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
+        /* Sombra projetada abaixo do círculo */
+        .profile-shadow {
+            width: 200px;
+            height: 24px;
+            border-radius: 50%;
+            background: radial-gradient(ellipse, rgba(0,0,0,0.45) 0%, transparent 70%);
+            margin-top: 18px;
+            filter: blur(8px);
         }
 
-        /* Photo frame glow when image is present */
-        .profile-container.has-photo::before {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 85%;
-            height: 60px;
-            background: radial-gradient(ellipse, rgba(201,106,155,0.5) 0%, transparent 70%);
-            filter: blur(20px);
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        /* Decorative circles */
+        /* ── DECORATIVE CIRCLES ── */
         .deco-circle {
             position: absolute;
             border-radius: 50%;
@@ -193,19 +253,6 @@
         .deco-1 { width: 200px; height: 200px; top: 40px; right: 40px; }
         .deco-2 { width: 120px; height: 120px; top: 80px; right: 80px; }
         .deco-3 { width: 60px; height: 60px; top: 110px; right: 110px; border-color: var(--gold); opacity: 0.4; }
-
-        /* Gold accent line on photo */
-        .photo-accent {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-            opacity: 0.7;
-            z-index: 3;
-            pointer-events: none;
-        }
 
         /* ── HEADER TEXT ── */
         .eyebrow {
@@ -303,6 +350,22 @@
             0%, 100% { opacity: 0.3; }
             50% { opacity: 1; }
         }
+
+        /* ── ANIMATIONS (header text) ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header-left > * {
+            animation: fadeUp 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        .eyebrow        { animation-delay: 0.1s; }
+        .header-name    { animation-delay: 0.25s; }
+        .header-tagline { animation-delay: 0.4s; }
+        .social-links   { animation-delay: 0.55s; }
 
         /* ── MAIN CONTENT ── */
         main {
@@ -594,31 +657,6 @@
             letter-spacing: 0.1em;
         }
 
-        /* ── ANIMATIONS ── */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .header-left > * {
-            animation: fadeUp 0.8s ease forwards;
-            opacity: 0;
-        }
-
-        .eyebrow { animation-delay: 0.1s; }
-        .header-name { animation-delay: 0.25s; }
-        .header-tagline { animation-delay: 0.4s; }
-        .social-links { animation-delay: 0.55s; }
-
-        @keyframes profileIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .profile-container {
-            animation: profileIn 1s ease 0.35s both;
-        }
-
         /* ── RESPONSIVE ── */
         @media (max-width: 900px) {
             header {
@@ -639,9 +677,8 @@
                 justify-content: center;
             }
 
-            .profile-container {
-                width: 230px;
-            }
+            .profile-ring  { width: 200px; height: 200px; }
+            .profile-shadow { width: 150px; }
 
             .sobre-grid {
                 grid-template-columns: 1fr;
@@ -665,10 +702,11 @@
                 padding: 25px;
             }
 
-            .project-num { display: none; }
+            .project-num  { display: none; }
             .project-arrow { display: none; }
 
-            .profile-container { width: 180px; }
+            .profile-ring  { width: 160px; height: 160px; }
+            .profile-shadow { width: 120px; }
         }
     </style>
 </head>
@@ -707,25 +745,30 @@
         ║  FOTO DE PERFIL                                      ║
         ║  • Troque "profile.png" pelo caminho da sua foto    ║
         ║  • Formatos aceitos: .png, .jpg, .webp              ║
-        ║  • Proporção ideal: ~1:1.5 (largura:altura)         ║
-        ║    ex: 600×900 px — foto de busto/retrato           ║
-        ║  • Se a imagem não carregar, aparece o fallback     ║
-        ║    com suas iniciais (VF) automaticamente            ║
+        ║  • A foto é cortada automaticamente em círculo       ║
+        ║  • Proporção ideal: quadrada (1:1) ou retrato       ║
+        ║    ex: 600×600 px ou 600×800 px                     ║
+        ║  • Se a imagem não carregar, aparecem as iniciais   ║
+        ║    VF automaticamente no lugar da foto               ║
         ╚══════════════════════════════════════════════════════╝
         -->
         <div class="profile-container" id="profileContainer">
-            <img
-                src="profile.png"
-                alt="Foto de Viviane Franco"
-                class="profile-img"
-                id="profileImg"
-                onerror="handlePhotoError()"
-            >
-            <!-- Fallback: initials — shown if image fails to load -->
-            <div class="profile-fallback" id="profileFallback" aria-label="Viviane Franco">
-                <span class="profile-fallback-initials">VF</span>
+            <div class="profile-ring">
+                <div class="profile-ring-inner">
+                    <img
+                        src="profile.png"
+                        alt="Foto de Viviane Franco"
+                        class="profile-img"
+                        id="profileImg"
+                        onerror="handlePhotoError()"
+                    >
+                    <!-- Fallback: iniciais exibidas se a imagem falhar -->
+                    <div class="profile-fallback" id="profileFallback" aria-label="Viviane Franco">
+                        <span class="profile-fallback-initials">VF</span>
+                    </div>
+                </div>
             </div>
-            <div class="photo-accent"></div>
+            <div class="profile-shadow"></div>
         </div>
     </div>
 
@@ -874,38 +917,14 @@
     /**
      * SUPORTE À FOTO DE PERFIL
      * ─────────────────────────
-     * Chamada automaticamente quando a imagem falha ao carregar.
-     * Mostra o fallback com as iniciais VF no lugar da foto.
+     * Chamado via onerror="handlePhotoError()" quando a imagem
+     * não é encontrada ou falha. Exibe as iniciais VF no mesmo
+     * anel luminoso, sem quebrar o layout.
      */
     function handlePhotoError() {
-        const img = document.getElementById('profileImg');
-        const fallback = document.getElementById('profileFallback');
-        const container = document.getElementById('profileContainer');
-
-        // Esconde a tag <img> quebrada
-        img.style.display = 'none';
-
-        // Exibe o fallback com as iniciais
-        fallback.style.display = 'flex';
-
-        // Reposiciona o container para centralizar o círculo
-        container.style.cssText = `
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
-            padding-bottom: 50px;
-            width: 100%;
-        `;
-
-        // Remove o glow (não faz sentido sem foto)
-        container.classList.remove('has-photo');
+        document.getElementById('profileImg').style.display = 'none';
+        document.getElementById('profileFallback').style.display = 'flex';
     }
-
-    // Se a imagem carrega com sucesso, adiciona a classe de glow
-    document.getElementById('profileImg').addEventListener('load', function() {
-        document.getElementById('profileContainer').classList.add('has-photo');
-    });
 </script>
 
 </body>
