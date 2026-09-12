@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revisor Automático de Textos com IA | Viviane Franco</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #0f0e17;
+            --paper: #f9f4ef;
+            --accent: #e8643c;
+            --muted: #a7a9be;
+            --light: #fffffe;
+            --mid: #eee8e0;
+            --code-bg: #1a1825;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* ── HEADER ── */
+        header {
+            position: relative;
+            padding: 6rem 2rem 7rem;
+            overflow: hidden;
+            background: var(--ink);
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.03) 39px, rgba(255,255,255,0.03) 40px),
+                repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.03) 39px, rgba(255,255,255,0.03) 40px);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            max-width: 860px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-tag {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            display: inline-block;
+            border: 1px solid var(--accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: 2px;
+            margin-bottom: 1.5rem;
+            animation: fadeUp 0.6s ease both;
+        }
+
+        h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.4rem, 6vw, 4rem);
+            color: var(--light);
+            line-height: 1.1;
+            max-width: 700px;
+            animation: fadeUp 0.6s 0.1s ease both;
+        }
+
+        h1 em { font-style: italic; color: var(--accent); }
+
+        .header-sub {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-top: 1.5rem;
+            max-width: 600px;
+            animation: fadeUp 0.6s 0.2s ease both;
+        }
+
+        .btn-github {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--light);
+            color: var(--ink);
+            text-decoration: none;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            animation: fadeUp 0.6s 0.3s ease both;
+        }
+        .btn-github:hover { background: var(--accent); color: var(--light); transform: translateY(-2px); }
+
+        /* ── MAIN CONTAINER ── */
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .content-wrap { margin-top: -3rem; position: relative; z-index: 10; }
+
+        /* ── SCREENSHOT ── */
+        .screenshot-wrap {
+            position: relative;
+            margin-bottom: 4rem;
+            animation: fadeUp 0.7s 0.3s ease both;
+        }
+        .screenshot-frame {
+            border: 1px solid rgba(15,14,23,0.12);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px -10px rgba(15,14,23,0.15);
+            background: var(--light);
+        }
+        .screenshot-bar {
+            background: var(--ink);
+            height: 36px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 16px;
+        }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .dot:nth-child(1) { background: #ff5f57; }
+        .dot:nth-child(2) { background: #ffbd2e; }
+        .dot:nth-child(3) { background: #28c840; }
+        .screenshot-wrap img { width: 100%; height: auto; display: block; }
+        .screenshot-placeholder {
+            width: 100%; height: 320px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.3); font-family: 'DM Mono', monospace; font-size: 0.85rem;
+        }
+
+        /* ── TYPOGRAPHY & SECTIONS ── */
+        .section-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--ink);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-title::before {
+            content: ''; width: 8px; height: 8px; background: var(--accent); border-radius: 50%;
+        }
+
+        .intro-text {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            color: #2d2b3d;
+            font-weight: 300;
+            margin-bottom: 4rem;
+            border-left: 3px solid var(--accent);
+            padding-left: 1.5rem;
+            animation: fadeUp 0.7s 0.4s ease both;
+        }
+
+        /* ── CHALLENGE SECTION (NOVO) ── */
+        .challenge-section {
+            background: var(--light);
+            border: 1px solid var(--mid);
+            border-radius: 8px;
+            padding: 2.5rem;
+            margin-bottom: 4rem;
+            animation: fadeUp 0.7s 0.5s ease both;
+        }
+        .challenge-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        .challenge-item h4 {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+        .challenge-item p { font-size: 0.95rem; color: #4a4860; line-height: 1.6; }
+
+        /* ── CODE SNIPPET (NOVO) ── */
+        .code-block {
+            background: var(--code-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0 4rem;
+            overflow-x: auto;
+            border: 1px solid rgba(255,255,255,0.05);
+            animation: fadeUp 0.7s 0.55s ease both;
+        }
+        .code-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .code-lang { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+        .code-content { font-family: 'DM Mono', monospace; font-size: 0.85rem; line-height: 1.7; color: #e0e0e0; }
+        .code-content .keyword { color: #c792ea; }
+        .code-content .string { color: #c3e88d; }
+        .code-content .function { color: #82aaff; }
+        .code-content .comment { color: #546e7a; font-style: italic; }
+
+        /* ── FLOW SECTION ── */
+        .flow-section { margin-bottom: 4rem; animation: fadeUp 0.7s 0.6s ease both; }
+        .flow-steps { display: flex; flex-direction: column; gap: 0; margin-top: 1.5rem; }
+        .flow-step {
+            display: flex; gap: 1.25rem; align-items: flex-start;
+            padding: 1.25rem 0; border-bottom: 1px solid var(--mid);
+        }
+        .flow-step:last-child { border-bottom: none; }
+        .flow-num {
+            font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 700;
+            color: var(--accent); background: rgba(232, 100, 60, 0.1);
+            width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; flex-shrink: 0;
+        }
+        .flow-content h4 { font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.3rem; }
+        .flow-content p { font-size: 0.95rem; color: #4a4860; line-height: 1.6; }
+
+        /* ── TECH STACK ── */
+        .tech-section { margin-bottom: 4rem; animation: fadeUp 0.7s 0.7s ease both; }
+        .tech-categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 1.5rem; }
+        .tech-cat-title { font-family: 'DM Mono', monospace; font-size: 0.75rem; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; letter-spacing: 0.1em; }
+        .tech-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .tech-tag {
+            font-family: 'DM Mono', monospace; font-size: 0.78rem;
+            padding: 0.4rem 0.85rem; border: 1px solid var(--ink);
+            border-radius: 4px; background: transparent; color: var(--ink);
+        }
+
+        /* ── RESULTS ── */
+        .results-section { margin-bottom: 5rem; animation: fadeUp 0.7s 0.75s ease both; }
+        .results-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 1.5rem;
+        }
+        .result-card {
+            background: var(--light); border: 1px solid var(--mid); border-radius: 8px;
+            padding: 2rem 1.5rem; text-align: center; transition: transform 0.3s;
+        }
+        .result-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+        .result-number {
+            font-family: 'DM Serif Display', serif; font-size: 2.5rem;
+            color: var(--accent); line-height: 1; display: block; margin-bottom: 0.5rem;
+        }
+        .result-label { font-size: 0.85rem; color: #4a4860; font-weight: 500; line-height: 1.4; }
+
+        /* ── NAV / CTA ── */
+        .nav-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 3rem 0; border-top: 1px solid var(--mid);
+            animation: fadeUp 0.7s 0.85s ease both;
+        }
+        .back-button {
+            font-family: 'DM Mono', monospace; font-size: 0.85rem; color: var(--ink);
+            text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;
+            transition: color 0.2s;
+        }
+        .back-button:hover { color: var(--accent); }
+        
+        .cta-box {
+            background: var(--ink); color: var(--light); padding: 2.5rem; border-radius: 8px;
+            text-align: center; margin-bottom: 3rem; animation: fadeUp 0.7s 0.8s ease both;
+        }
+        .cta-box h3 { font-family: 'DM Serif Display', serif; font-size: 1.8rem; margin-bottom: 1rem; }
+        .cta-box p { color: var(--muted); margin-bottom: 1.5rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .btn-primary {
+            display: inline-block; background: var(--accent); color: var(--light);
+            text-decoration: none; padding: 12px 28px; border-radius: 4px;
+            font-family: 'DM Mono', monospace; font-weight: 500; font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+        .btn-primary:hover { background: #d55a34; transform: translateY(-2px); }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .header-top { flex-direction: column; gap: 1.5rem; }
+            .challenge-grid { grid-template-columns: 1fr; }
+            .results-grid { grid-template-columns: 1fr; }
+            .nav-row { flex-direction: column; gap: 1.5rem; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-top">
+        <div>
+            <div class="header-tag">Case Study · Engenharia de Software & IA</div>
+            <h1>Revisor de textos <em>inteligente</em> e estruturado</h1>
+            <p class="header-sub">
+                Um pipeline em Python que alia processamento de linguagem natural (NLP) à manipulação avançada de documentos, resolvendo o problema de perda de formatação em revisões de textos longos via LLMs.
+            </p>
+        </div>
+        <a href="https://github.com/vivianefranco" target="_blank" class="btn-github">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            Ver Código Fonte
+        </a>
+    </div>
+</header>
+
+<div class="container content-wrap">
+
+    <!-- SCREENSHOT -->
+    <div class="screenshot-wrap">
+        <div class="screenshot-frame">
+            <div class="screenshot-bar">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <!-- Substitua pelo print real do seu projeto -->
+            <img src="images/print_revisor.png" alt="Interface do Revisor de Textos"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="screenshot-placeholder">[ Insira aqui o screenshot da interface Streamlit ou do terminal ]</div>
+        </div>
+    </div>
+
+    <!-- INTRO -->
+    <p class="intro-text">
+        Desenvolvi este sistema para resolver uma dor real: ferramentas de IA genéricas destroem a formatação de documentos longos (.docx) e perdem o contexto em textos extensos. Este projeto une <strong>rigor linguístico</strong> (minha base em educação) com <strong>engenharia de software robusta</strong> (minha atuação atual), entregando um arquivo final pronto para uso, com estrutura preservada e qualidade editorial garantida.
+    </p>
+
+    <!-- DESAFIO TÉCNICO (O que impressiona recrutadores) -->
+    <div class="challenge-section">
+        <h2 class="section-title">O Desafio Técnico</h2>
+        <div class="challenge-grid">
+            <div class="challenge-item">
+                <h4>01. Limite de Contexto das LLMs</h4>
+                <p>Documentos acadêmicos ou corporativos frequentemente excedem o limite de tokens. Solucionei isso implementando um algoritmo de <em>chunking</em> inteligente, que divide o texto por parágrafos ou seções lógicas, mantendo o contexto entre as chamadas da API.</p>
+            </div>
+            <div class="challenge-item">
+                <h4>02. Preservação de Formatação</h4>
+                <p>LLMs retornam texto puro (Markdown/HTML), destruindo negritos, estilos de título e listas do Word. Utilizei a biblioteca <code>python-docx</code> para mapear os nós XML do documento original, aplicando as revisões da IA de volta ao arquivo sem perder a estrutura visual.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CODE SNIPPET (Prova social técnica) -->
+    <div class="code-block">
+        <div class="code-header">
+            <span class="code-lang">Python · Lógica de Reconstrução do DOCX</span>
+        </div>
+        <div class="code-content">
+<span class="keyword">def</span> <span class="function">aplicar_revisao_ao_documento</span>(caminho_original, texto_revisado):
+    <span class="comment"># Carrega o documento original para preservar estilos e metadados</span>
+    doc = Document(caminho_original)
+    
+    <span class="comment"># Itera sobre os parágrafos, substituindo o conteúdo</span>
+    <span class="comment"># mantendo a formatação (runs) intacta</span>
+    <span class="keyword">for</span> i, para <span class="keyword">in</span> enumerate(doc.paragraphs):
+        <span class="keyword">if</span> para.text.strip():
+            para.text = texto_revisado[i] <span class="comment"># Texto processado pela IA</span>
+            
+    doc.save(<span class="string">"documento_revisado_final.docx"</span>)
+    <span class="keyword">return</span> <span class="string">"Sucesso na reconstrução"</span>
+        </div>
+    </div>
+
+    <!-- FLUXO -->
+    <div class="flow-section">
+        <h2 class="section-title">Arquitetura da Solução</h2>
+        <div class="flow-steps">
+            <div class="flow-step">
+                <div class="flow-num">1</div>
+                <div class="flow-content">
+                    <h4>Ingestão e Validação</h4>
+                    <p>O usuário faz o upload do `.docx`. O sistema valida o tipo de arquivo e extrai o texto bruto, mapeando a estrutura original (títulos, parágrafos, listas).</p>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-num">2</div>
+                <div class="flow-content">
+                    <h4>Configuração do Prompt (System Message)</h4>
+                    <p>O sistema injeta dinamicamente os critérios de revisão (ex: "tom acadêmico", "foco em coesão") no prompt da API, atuando como um "revisor sênior" especializado.</p>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-num">3</div>
+                <div class="flow-content">
+                    <h4>Processamento em Lotes (Chunking)</h4>
+                    <p>O texto é dividido em blocos gerenciáveis. Cada bloco é enviado à API (GPT-4o-mini) com controle de taxa de requisição (rate limiting) para evitar erros.</p>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-num">4</div>
+                <div class="flow-content">
+                    <h4>Reconstrução e Exportação</h4>
+                    <p>O Python remonta o documento `.docx`, injetando o texto revisado nos nós de formatação originais, e disponibiliza o link para download imediato.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TECH STACK -->
+    <div class="tech-section">
+        <h2 class="section-title">Stack Tecnológico</h2>
+        <div class="tech-categories">
+            <div>
+                <div class="tech-cat-title">Backend & Lógica</div>
+                <div class="tech-tags">
+                    <span class="tech-tag">Python 3.10+</span>
+                    <span class="tech-tag">python-docx</span>
+                    <span class="tech-tag">Regex</span>
+                </div>
+            </div>
+            <div>
+                <div class="tech-cat-title">Inteligência Artificial</div>
+                <div class="tech-tags">
+                    <span class="tech-tag">OpenAI API</span>
+                    <span class="tech-tag">GPT-4o-mini</span>
+                    <span class="tech-tag">Prompt Engineering</span>
+                    <span class="tech-tag">Text Chunking</span>
+                </div>
+            </div>
+            <div>
+                <div class="tech-cat-title">Interface & Deploy</div>
+                <div class="tech-tags">
+                    <span class="tech-tag">Streamlit</span>
+                    <span class="tech-tag">Git / GitHub</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="results-section">
+        <h2 class="section-title">Resultados e Impacto</h2>
+        <div class="results-grid">
+            <div class="result-card">
+                <span class="result-number">~90%</span>
+                <span class="result-label">Redução no tempo de revisão manual de documentos longos</span>
+            </div>
+            <div class="result-card">
+                <span class="result-number">100%</span>
+                <span class="result-label">Preservação da estrutura original (negrito, itálico, listas)</span>
+            </div>
+            <div class="result-card">
+                <span class="result-number">Modular</span>
+                <span class="result-label">Código preparado para troca fácil de modelos (ex: migrar para Claude ou Llama)</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA FINAL -->
+    <div class="cta-box">
+        <h3>Interessado em como posso aplicar isso no seu time?</h3>
+        <p>Estou buscando oportunidades para aplicar minha combinação única de rigor linguístico e engenharia de software em projetos de IA e automação.</p>
+        <a href="mailto:vivianefrancodasilva@gmail.com" class="btn-primary">Vamos conversar sobre este projeto</a>
+    </div>
+
+    <!-- NAV -->
+    <div class="nav-row">
+        <a href="index.html" class="back-button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Voltar ao Portfólio Principal
+        </a>
+        <a href="https://github.com/vivianefranco" target="_blank" class="back-button" style="border-bottom: none; gap: 8px;">
+            Ver repositório no GitHub
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+    </div>
+
+</div>
+
+</body>
+</html>
